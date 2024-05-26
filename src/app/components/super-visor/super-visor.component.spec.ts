@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SupervisorComponent } from './super-visor.component';
+import { SuperVisorComponent } from './super-visor.component';
 
-describe('SupervisorComponent', () => {
-  let component: SupervisorComponent;
-  let fixture: ComponentFixture<SupervisorComponent>;
+describe('SuperVisorComponent', () => {
+  let component: SuperVisorComponent;
+  let fixture: ComponentFixture<SuperVisorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SupervisorComponent]
+      declarations: [SuperVisorComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(SupervisorComponent);
+    fixture = TestBed.createComponent(SuperVisorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

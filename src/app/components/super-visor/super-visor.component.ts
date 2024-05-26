@@ -5,6 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './super-visor.component.html',
   styleUrl: './super-visor.component.css'
 })
-export class SupervisorComponent {
+export class SuperVisorComponent {
 
 }

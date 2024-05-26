@@ -5,7 +5,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { AuthGuard } from './auth.guard';
 import { WorkerComponent } from './components/worker/worker.component';
-import { SupervisorComponent } from './components/super-visor/super-visor.component';
+import { SuperVisorComponent } from './components/super-visor/super-visor.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch:'full'},
@@ -19,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'supervisor',
-    component: SupervisorComponent,
+    component: SuperVisorComponent,
     canActivate: [AuthGuard],
     data: { roles: ['supervisor', 'admin'] }
   },

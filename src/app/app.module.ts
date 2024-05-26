@@ -19,7 +19,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { AdminComponent } from './components/admin/admin.component';
 import { WorkerComponent } from './components/worker/worker.component';
-import { SupervisorComponent } from './components/super-visor/super-visor.component';
+import { SuperVisorComponent } from './components/super-visor/super-visor.component';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -29,7 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
     SignupComponent,
     AdminComponent,
     WorkerComponent,
-    SupervisorComponent
+    SuperVisorComponent
   ],
   imports: [
     BrowserModule,
