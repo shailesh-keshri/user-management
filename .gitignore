@@ -45,3 +45,6 @@ Thumbs.db
 .firebase
 *-debug.log
 .runtimeconfig.json
+
+#Ignore this file
+backend/config/serviceAccountKey.json
