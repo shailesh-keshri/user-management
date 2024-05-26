@@ -1,0 +1,32 @@
+.card{
+    width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 1px 8px 4px #00000034;
+}
+.card-title{
+    padding: 10px;
+    text-align: center;
+    color: #0089ff;
+    font: normal normal bold 28px/36px Arial;
+    margin-bottom: 5px;
+}
+.card-subtitle{
+    margin-bottom: 10px;
+    text-align: center;
+    font: normal normal 600 15px/21px;
+    color: #1755a6;
+}
+.card .card-content form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+mat-form-field{
+    margin-bottom: 10px;
+}

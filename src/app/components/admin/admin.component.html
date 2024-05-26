@@ -1,0 +1,41 @@
+<!-- admin.component.html -->
+<form (ngSubmit)="createUser(email.value, password.value, role.value)">
+    <mat-form-field>
+      <input matInput #email type="email" placeholder="Email" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput #password type="password" placeholder="Password" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Role</mat-label>
+      <mat-select #role>
+        <mat-option value="admin">Admin</mat-option>
+        <mat-option value="supervisor">Supervisor</mat-option>
+        <mat-option value="worker">Worker</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Create User</button>
+  </form>
+  
+  <form (ngSubmit)="assignRole(uid.value, role.value)">
+    <mat-form-field>
+      <input matInput #uid type="text" placeholder="User ID" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Role</mat-label>
+      <mat-select #role>
+        <mat-option value="admin">Admin</mat-option>
+        <mat-option value="supervisor">Supervisor</mat-option>
+        <mat-option value="worker">Worker</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Assign Role</button>
+  </form>
+  
+  <form (ngSubmit)="removeUser(uid.value)">
+    <mat-form-field>
+      <input matInput #uid type="text" placeholder="User ID" required>
+    </mat-form-field>
+    <button mat-raised-button color="warn" type="submit">Remove User</button>
+  </form>
+  
