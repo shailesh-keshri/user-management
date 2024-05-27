@@ -26,9 +26,14 @@
 .card .card-content form{
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
 }
 mat-form-field{
     margin-bottom: 10px;
+}
+.btn-login{
+    margin-right: 10px;
+}
+.btn-back{
+    margin-left: 10px;
 }

@@ -1,8 +1,8 @@
 // src/app/services/auth/auth.service.ts
 import { Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from '@angular/fire/auth';
 import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
-import { from, Observable, switchMap } from 'rxjs';
+import { from, map, Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,22 +18,23 @@ export class AuthService {
     return from(signOut(this.auth));
   }
 
-  register(email: string, password: string, name: string, roles: string): Observable<any> {
+  register(email: string, password: string, displayName: string, roles: string): Observable<any> {
     return from(createUserWithEmailAndPassword(this.auth, email, password)).pipe(
       switchMap((userCredential) => {
         const userRef = doc(this.firestore, `users/${userCredential.user.uid}`);
         return from(setDoc(userRef, {
           email,
-          name,
+          displayName,
           roles,
-          createdAt: new Date()
-        }));
+        })).pipe(
+          map(() => ({ uid: userCredential.user.uid, roles })) // Directly return the roles from the provided value
+        );
       })
     );
   }
 
-  getUserRole(userId: string): Observable<string> {
-    const userRef = doc(this.firestore, `users/${userId}`);
+  getUserRole(uid: string): Observable<string> {
+    const userRef = doc(this.firestore, `users/${uid}`);
     return from(getDoc(userRef)).pipe(
       switchMap((userDoc) => {
         if (userDoc.exists()) {
@@ -44,5 +45,24 @@ export class AuthService {
         }
       })
     );
+  }
+
+  getLoggedInUser(): Observable<any> {
+    return new Observable(observer => {
+      onAuthStateChanged(this.auth, user => {
+        if (user) {
+          const userRef = doc(this.firestore, `users/${user.uid}`);
+          getDoc(userRef).then(userDoc => {
+            if (userDoc.exists()) {
+              observer.next({ ...user, ...userDoc.data() });
+            } else {
+              observer.next(null);
+            }
+          });
+        } else {
+          observer.next(null);
+        }
+      });
+    });
   }
 }

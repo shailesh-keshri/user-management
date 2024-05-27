@@ -10,7 +10,7 @@
   
         <mat-form-field appearance="fill">
           <mat-label>Name</mat-label>
-          <input matInput formControlName="name" type="text" required>
+          <input matInput formControlName="displayName" type="text" required>
         </mat-form-field>
   
         <mat-form-field appearance="fill">
@@ -28,7 +28,10 @@
           <input matInput formControlName="password" type="password" required>
         </mat-form-field>
   
-        <button mat-raised-button color="primary" type="submit">Register</button>
+        <div class="d-flex align-items-center justify-content-center">
+          <button mat-raised-button color="primary" type="submit" class="btn-register">SignUp Now</button>
+          <button mat-raised-button color="secondary" routerLink="/home" class="btn-back">Back</button>
+        </div>
       </form>
     </mat-card-content>
   </mat-card>

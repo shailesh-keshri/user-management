@@ -1,41 +1,87 @@
-<!-- admin.component.html -->
-<form (ngSubmit)="createUser(email.value, password.value, role.value)">
-    <mat-form-field>
-      <input matInput #email type="email" placeholder="Email" required>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput #password type="password" placeholder="Password" required>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Role</mat-label>
-      <mat-select #role>
-        <mat-option value="admin">Admin</mat-option>
-        <mat-option value="supervisor">Supervisor</mat-option>
-        <mat-option value="worker">Worker</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <button mat-raised-button color="primary" type="submit">Create User</button>
-  </form>
-  
-  <form (ngSubmit)="assignRole(uid.value, role.value)">
-    <mat-form-field>
-      <input matInput #uid type="text" placeholder="User ID" required>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Role</mat-label>
-      <mat-select #role>
-        <mat-option value="admin">Admin</mat-option>
-        <mat-option value="supervisor">Supervisor</mat-option>
-        <mat-option value="worker">Worker</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <button mat-raised-button color="primary" type="submit">Assign Role</button>
-  </form>
-  
-  <form (ngSubmit)="removeUser(uid.value)">
-    <mat-form-field>
-      <input matInput #uid type="text" placeholder="User ID" required>
-    </mat-form-field>
-    <button mat-raised-button color="warn" type="submit">Remove User</button>
-  </form>
-  
+<app-image-capture></app-image-capture>
+<app-show-users></app-show-users>
+
+<mat-card class="my-2 mx-4 px-3 py-2">
+  <mat-card-title>Create New User</mat-card-title>
+  <mat-card-content class="px-3 py-2">
+    <div class="user-creation">
+      <form [formGroup]="createUserForm">
+        <mat-form-field>
+          <mat-label>Enter Name</mat-label>
+          <input matInput type="text" placeholder="Username" formControlName="displayName" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Enter Email</mat-label>
+          <input matInput type="email" placeholder="Email" formControlName="email" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Enter Password</mat-label>
+          <input matInput type="password" placeholder="Password" formControlName="password" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Select Role</mat-label>
+          <mat-select formControlName="roles">
+            <mat-option value="admin">Admin</mat-option>
+            <mat-option value="supervisor">Supervisor</mat-option>
+            <mat-option value="worker">Worker</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" (click)="handleCreateUser()">Create User</button>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="my-2 mx-4 px-3 py-2">
+  <mat-card-title>Update User Roles</mat-card-title>
+  <mat-card-content class="px-3 py-2">
+    <div class="user-creation">
+      <form [formGroup]="updateUserForm">
+        <mat-form-field>
+          <mat-label>Select User ID</mat-label>
+          <mat-select formControlName="uid">
+            <mat-option *ngFor="let id of userIdList" [value]="id">{{id}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>User Name</mat-label>
+          <input matInput type="text" placeholder="Username" formControlName="displayName" readonly>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Select Role</mat-label>
+          <mat-select formControlName="roles">
+            <mat-option value="admin">Admin</mat-option>
+            <mat-option value="supervisor">Supervisor</mat-option>
+            <mat-option value="worker">Worker</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="submit" (click)="handleUpdateRole()">Assign Role</button>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="my-2 mx-4 px-3 py-2">
+  <mat-card-title>Remove User</mat-card-title>
+  <mat-card-content class="px-3 py-2">
+    <div class="user-creation">
+      <form [formGroup]="removeUserForm">
+        <mat-form-field>
+          <mat-label>Select User ID</mat-label>
+          <mat-select formControlName="uid">
+            <mat-option *ngFor="let id of userIdList" [value]="id">{{id}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>User Name</mat-label>
+          <input matInput type="text" placeholder="Username" formControlName="displayName" readonly>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>User Roles</mat-label>
+          <input matInput type="text" placeholder="Roles" formControlName="roles" readonly>
+        </mat-form-field>
+        <button mat-raised-button color="warn" type="submit" (click)="handleRemoveUser()">Remove User</button>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>

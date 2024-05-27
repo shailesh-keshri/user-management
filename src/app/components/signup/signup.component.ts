@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
 import { SnackbarService } from '../../services/popup/snackbar.service';
+import { SpinnerService } from '../../services/spinner/spinner.service';
 
 @Component({
   selector: 'app-signup',
@@ -15,8 +16,9 @@ export class SignupComponent implements OnInit{
 
   constructor(
     private authService:AuthService,
-    private router: Router,
-    private snackbarService: SnackbarService
+    private spinner: SpinnerService,
+    private snackbarService: SnackbarService,
+    private router:Router,
   ) {
     this.createForm();
   }
@@ -28,40 +30,43 @@ export class SignupComponent implements OnInit{
   createForm(){
     this.signUpForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      name: new FormControl('', [Validators.required]),
-      roles: new FormControl('', [Validators.required]),
+      displayName: new FormControl('', [Validators.required]),
+      roles: new FormControl('admin', [Validators.required]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     });
   }
 
   onRegister() {
+    this.signUpForm.markAllAsTouched();
     if (this.signUpForm.valid) {
-      const { email, password, name, roles } = this.signUpForm.value;
-      this.authService.register(email, password, name, roles).subscribe({
-        next: (res) => {
-          console.log('SignUp Success: ',res);
-          this.snackbarService.showMessage('Registration Successful');
-          console.log(email, password, roles)
-           // Check the role of the registered user and navigate accordingly
-          if (roles === 'admin') {
-            this.router.navigate(['/admin']);
-          } else if (roles === 'supervisor') {
-            this.router.navigate(['/supervisor']);
-          } else if (roles === 'worker') {
-            this.router.navigate(['/worker']);
-          }
-        },
-        error: (err) => {
-          if (err.code === 'auth/email-already-in-use') {
-            this.snackbarService.showMessage('Email is already in use');
-          } else {
-            console.error('Signup Failed: ', err);
-            this.snackbarService.showMessage('Signup Failed. Please try again.');
-          }
-        }
-      })
-        
-        
+      this.doRegistrations(this.signUpForm.value); 
     }
+  }
+
+  private doRegistrations(value: any) {
+    this.spinner.show();
+    const { email, password, displayName, roles } = value; // Use displayName instead of name
+    this.authService.register(email, password, displayName, roles).subscribe({
+      next: (res) => {
+        console.log('SignUp Success: ');
+        this.snackbarService.showMessage('Registration Successful');
+        this.spinner.hide();
+
+        if (roles) {
+          this.router.navigate(['/'+roles]);
+        } else {
+          this.router.navigate(['/home']);
+        }
+      },
+      error: (err) => {
+        if (err.code === 'auth/email-already-in-use') {
+          this.snackbarService.showMessage('Email is already in use');
+        } else {
+          console.error('Signup Failed: ', err);
+          this.snackbarService.showMessage('Signup Failed. Please try again.');
+        }
+        this.spinner.hide();
+      }
+    });
   }
 }

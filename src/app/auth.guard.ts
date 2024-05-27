@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
           return this.authService.getUserRole(user.uid).pipe(
             map(role => {
               const allowedRoles = route.data['roles'] as Array<string>;
-              if (allowedRoles.includes(role)) {
+              if (this.isRoleAllowed(role, allowedRoles)) {
                 return true;
               } else {
                 this.router.navigate(['/unauthorized']);
@@ -37,5 +37,15 @@ export class AuthGuard implements CanActivate {
       }),
       take(1)
     );
+  }
+
+  private isRoleAllowed(userRole: string, allowedRoles: Array<string>): boolean {
+    const roleHierarchy:any = {
+      'worker': 1,
+      'supervisor': 2,
+      'admin': 3
+    };
+    // Check if the user's role is at least as high as the required role
+    return roleHierarchy[userRole] >= Math.min(...allowedRoles.map(role => roleHierarchy[role]));
   }
 }

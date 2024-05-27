@@ -1,1 +1,24 @@
-<router-outlet></router-outlet>
+<ng-container *ngIf="user; else homePage">
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <span>User Management System</span>
+        <span class="spacer"></span>
+        <ng-container *ngIf="user">
+          <span>{{ user.displayName || user.email }}</span>
+          <button mat-button (click)="logout()">Logout</button>
+        </ng-container>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  
+  </ng-container>
+  
+  <ng-template #homePage>
+    <router-outlet></router-outlet>
+  </ng-template>
+  <div class="spinner-overlay" *ngIf="isLoading | async">
+    <div class="spinner-dialog" >
+      <mat-spinner strokeWidth="4" diameter="50" color="warn"></mat-spinner>
+      <p class="text-white text-center mx-2 mt-2">Please wait...</p>
+    </div>
+  </div>
